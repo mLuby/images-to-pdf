@@ -1,0 +1,21 @@
+{
+  "name": "images-to-pdf",
+  "version": "1.0.0",
+  "description": "combines images into a single PDF",
+  "main": "imagesToPdf.js",
+  "scripts": {
+    "test": "eslint --config .eslintrc.json *.js && node test/test.js"
+  },
+  "author": "mLuby",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "tape": "^4.9.1"
+  },
+  "dependencies": {
+    "image-size": "^0.6.2",
+    "pdfmake": "^0.1.36",
+    "pdfmerger": "^0.2.0",
+    "stream-to-promise": "^2.2.0"
+  }
+}
