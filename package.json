@@ -1,12 +1,12 @@
 {
   "name": "images-to-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "combines images into a single PDF",
   "main": "imagesToPdf.js",
   "scripts": {
     "test": "eslint --config .eslintrc.json *.js && node test/test.js"
   },
-  "author": "mLuby",
+  "author": "mLuby <mLuby@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^4.19.1",
