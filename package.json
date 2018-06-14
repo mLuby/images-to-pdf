@@ -4,12 +4,14 @@
   "description": "combines images into a single PDF",
   "main": "imagesToPdf.js",
   "scripts": {
+    "cover": "nyc *.js",
     "test": "eslint --config .eslintrc.json *.js && node test/test.js"
   },
   "author": "mLuby <mLuby@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^4.19.1",
+    "nyc": "^12.0.2",
     "tape": "^4.9.1"
   },
   "dependencies": {

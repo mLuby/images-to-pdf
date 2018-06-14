@@ -1,4 +1,4 @@
-const test = require("tape")
+const tape = require("tape")
 const {promisify} = require("util")
 const fs = require("fs")
 // files to test
@@ -6,21 +6,37 @@ const combinePdfs = require("../combinePdfs.js")
 const imagesToPdf = require("../imagesToPdf.js")
 const testDir = __dirname
 
-test("combines PDFs into a single PDF", async t => {
-  t.plan(2)
-  const combinedPath = `${testDir}/combine/combined.pdf`
-  const pdfPaths = [`${testDir}/combine/1.pdf`, `${testDir}/combine/2.pdf`, `${testDir}/combine/3.pdf`]
-  // combined PDF doesn't exist
-  await (promisify(fs.readFile))(combinedPath).then(() => t.fail("PDF already exists")).catch(() => t.pass("PDF doesn't exist yet"))
-  // combine the PDFs
-  await combinePdfs(pdfPaths, combinedPath)
-  // combined PDF exists
-  await (promisify(fs.readFile))(combinedPath).then(() => t.pass("PDF exists")).catch(() => t.fail("PDF doesn't exist"))
-  // clean up combined PDF
-  await (promisify(fs.unlink))(combinedPath)
+tape("combinePdfs", ({test}) => {
+  test("combines PDFs into a single PDF", async t => {
+    t.plan(2)
+    const combinedPath = `${testDir}/combine/combined.pdf`
+    const pdfPaths = [`${testDir}/combine/1.pdf`, `${testDir}/combine/2.pdf`, `${testDir}/combine/3.pdf`]
+    // combined PDF doesn't exist
+    await (promisify(fs.readFile))(combinedPath).then(() => t.fail("PDF already exists")).catch(() => t.pass("PDF doesn't exist yet"))
+    // combine the PDFs
+    await combinePdfs(pdfPaths, combinedPath)
+    // combined PDF exists
+    await (promisify(fs.readFile))(combinedPath).then(() => t.pass("PDF exists")).catch(() => t.fail("PDF doesn't exist"))
+    // clean up combined PDF
+    await (promisify(fs.unlink))(combinedPath)
+  })
+
+  test("combines one PDF into a single PDF", async t => {
+    t.plan(2)
+    const combinedPath = `${testDir}/combine/combined.pdf`
+    const pdfPaths = [`${testDir}/combine/1.pdf`]
+    // combined PDF doesn't exist
+    await (promisify(fs.readFile))(combinedPath).then(() => t.fail("PDF already exists")).catch(() => t.pass("PDF doesn't exist yet"))
+    // combine the PDFs
+    await combinePdfs(pdfPaths, combinedPath)
+    // combined PDF exists
+    await (promisify(fs.readFile))(combinedPath).then(() => t.pass("PDF exists")).catch(() => t.fail("PDF doesn't exist"))
+    // clean up combined PDF
+    await (promisify(fs.unlink))(combinedPath)
+  })
 })
 
-test("combines images into a single PDF", async t => {
+tape("combines images into a single PDF", async t => {
   const TEST_COUNT = 4
   t.plan(TEST_COUNT)
   const imagesPdfPath = `${testDir}/images/images.pdf`
