@@ -19,9 +19,7 @@
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "image-size": "^0.6.2",
-    "pdfmake": "^0.1.36",
-    "pdfmerger": "^0.2.0",
+    "hummus": "^1.0.87",
     "stream-to-promise": "^2.2.0"
   }
 }
