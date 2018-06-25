@@ -1,22 +1,20 @@
-const {createReadStream, createWriteStream} = require("fs")
+const fs = require("fs")
+const {promisify} = require("util")
 const pdfmerger = require("pdfmerger")
 const streamToPromise = require("stream-to-promise")
 
 module.exports = combinePdfs
 
-async function combinePdfs (pdfPaths, combinedPdfPath) {
-  if (!Array.isArray(pdfPaths) || pdfPaths.length === 0) {
-    throw new Error("Must have at least one PDF path in array")
-  } else if (pdfPaths.length === 1) {
-    const readStream = createReadStream(pdfPaths[0])
-    readStream.pipe(createWriteStream(combinedPdfPath))
-    await streamToPromise(readStream)
-    return combinedPdfPath
+async function combinePdfs (paths, resultPath) {
+  if (!Array.isArray(paths) || paths.length === 0) {
+    throw new Error("Must have at least one path in array")
+  } else if (paths.length === 1) {
+    await promisify(fs.copyFile)(paths[0], resultPath)
+    return resultPath
   }
-  console.log("Foo", pdfPaths)
-  const pdfStream = pdfmerger(pdfPaths)
-  const writeStream = createWriteStream(combinedPdfPath)
+  const pdfStream = pdfmerger(paths)
+  const writeStream = fs.createWriteStream(resultPath)
   pdfStream.pipe(writeStream)
   await streamToPromise(pdfStream)
-  return combinedPdfPath
+  return resultPath
 }
