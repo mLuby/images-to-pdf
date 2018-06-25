@@ -1,6 +1,6 @@
 {
   "name": "images-to-pdf",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "combines images into a single PDF",
   "main": "imagesToPdf.js",
   "scripts": {
