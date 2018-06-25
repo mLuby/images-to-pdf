@@ -1,31 +1,20 @@
-const fs = require("fs")
-const {promisify} = require("util")
-const PdfPrinter = require("pdfmake")
-const sizeOf = promisify(require("image-size"))
-const combinePdfs = require("./combinePdfs.js")
+const hummus = require("hummus")
 const streamToPromise = require("stream-to-promise")
 
 module.exports = imagesToPdf
 
 async function imagesToPdf (paths, resultPath) {
-  const pagePaths = await Promise.all(paths.map(createOnePagePdfFromImage))
-  await combinePdfs(pagePaths, resultPath)
-  await Promise.all(pagePaths.map(async pagePath => await promisify(fs.unlink)(pagePath)))
-  return resultPath
-}
-
-async function createOnePagePdfFromImage (imagePath, page) {
-  const pageSize = await sizeOf(imagePath)
-  const docDefinition = {
-    content: {image: imagePath},
-    pageMargins: [0, 0, 0, 0],
-    pageOrientation: pageSize.width > pageSize.height ? "landscape" : "portrait",
-    pageSize,
+  if (!Array.isArray(paths) || paths.length === 0) {
+    throw new Error("Must have at least one path in array")
   }
-  const doc = new PdfPrinter().createPdfKitDocument(docDefinition)
-  const pagePath = `${page}.pdf`
-  doc.pipe(fs.createWriteStream(pagePath))
-  doc.end()
-  await streamToPromise(doc)
-  return pagePath
+  const pdfWriter = hummus.createWriter(resultPath)
+  paths.forEach(path => {
+    const {width, height} = pdfWriter.getImageDimensions(path)
+    const page = pdfWriter.createPage(0, 0, width, height)
+    pdfWriter.startPageContentContext(page).drawImage(0, 0, path)
+    pdfWriter.writePage(page)
+  })
+  pdfWriter.end()
+  await streamToPromise(pdfWriter)
+  return resultPath
 }
