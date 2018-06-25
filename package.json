@@ -4,7 +4,7 @@
   "description": "combines images into a single PDF",
   "main": "imagesToPdf.js",
   "scripts": {
-    "test": "eslint --config .eslintrc.json *.js && nyc --reporter=lcov --reporter=text --check-coverage --lines 100 --functions 100 --branches 100 node test/test.js"
+    "test": "eslint --config .eslintrc.json *.js && nyc --reporter=lcov --reporter=text --check-coverage --lines 100 --functions 100 --branches 100 node test/test.js && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "mLuby <mLuby@users.noreply.github.com>",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "url": "git://github.com/mLuby/images-to-pdf.git"
   },
   "devDependencies": {
+    "coveralls": "^3.0.1",
     "eslint": "^4.19.1",
     "nyc": "^12.0.2",
     "pdfjs-dist": "^2.0.489",

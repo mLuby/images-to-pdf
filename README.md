@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/mLuby/images-to-pdf.svg?branch=master)](https://travis-ci.org/mLuby/images-to-pdf)[![Coverage Status](https://coveralls.io/repos/github/mLuby/images-to-pdf/badge.svg?branch=master)](https://coveralls.io/github/mLuby/images-to-pdf?branch=master)
 # ImagesToPdf
 Combines images into a single PDF. 😇
 
